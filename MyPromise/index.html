@@ -14,38 +14,68 @@
         // }, 1000)
     }
 
-    const p = new Promise_(executor)
+    // const p = new Promise_(executor)
+    //
+    // p.then().then().then(res => {
+    //     console.log('res, ', res)
+    // }, reason => {
+    //     console.warn(reason)
+    // })
+    //
+    // const p1 = new Promise_((resolve, reject) => {
+    //     setTimeout(() => {
+    //         resolve('CC')
+    //     }, 500)
+    // })
+    //
+    // const p2 = new Promise_((resolve, reject) => {
+    //     setTimeout(() => {
+    //         reject('DDD')
+    //     }, 1500)
+    // })
+    //
+    // // Promise_.all({ length: 2 }).then(res => {
+    // //     console.log('all -> res: ', res)
+    // // }, reason => {
+    // //     console.error(reason)
+    // // })
+    //
+    // p2.finally(() => {
+    //     console.log('finally')
+    // }).then(value => {
+    //     console.log('value: ', value)
+    // }, reason => {
+    //     console.log('reason: ', reason)
+    // })
 
-    p.then().then().then(res => {
-        console.log('res, ', res)
-    }, reason => {
-        console.warn(reason)
-    })
-
-    const p1 = new Promise_((resolve, reject) => {
-        setTimeout(() => {
-            resolve('CC')
-        }, 500)
-    })
-
-    const p2 = new Promise_((resolve, reject) => {
-        setTimeout(() => {
-            resolve('DDD')
-        }, 1500)
-    })
-
-    Promise_.all({ length: 2 }).then(res => {
-        console.log('all -> res: ', res)
-    }, reason => {
-        console.error(reason)
-    })
 
 
-    console.log('--------------------------------------原生Promise--------------------------------')
     // Promise.all({ length: 1 }).then(v => {
     //     console.log(v)
     // })
-    // const op = new Promise(executor)
+
+    const finallyP = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('1000ms finally-resolve')
+        }, 1000)
+    })
+
+    const op = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('1000ms resolve')
+        }, 1000)
+    })
+
+    op.finally(() => {
+        return 'resolve -> a'
+    }).then(
+        value => {
+            console.log('value: ', value)
+        },
+        reason => {
+            console.log('reason: ', reason)
+        }
+    )
     //
     //
     // const opt = op.then(

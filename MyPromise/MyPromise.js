@@ -88,6 +88,24 @@ export default class MyPromise {
         return p
     }
 
+    catch(callback) {
+        return this.then(undefined, callback)
+    }
+
+    finally(callback) {
+        return this.then(
+            value => {
+                const result = callback()
+                if ()
+                return value
+            },
+            reason => {
+                callback()
+                throw reason
+            }
+        )
+    }
+
     static resolve(object) {
         if (object instanceof MyPromise) return object
         return new MyPromise((resolve) => resolve(object))
