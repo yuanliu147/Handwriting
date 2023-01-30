@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyPromise</title>
+</head>
+<body>
+<script type="module">
+    import Promise_ from './MyPromise.js'
+
+    const executor = (resolve, reject) => {
+        // setTimeout(() => {
+        reject('executor~~')
+        // }, 1000)
+    }
+
+    const p = new Promise_(executor)
+
+    p.then().then().then(res => {
+        console.log('res, ', res)
+    }, reason => {
+        console.warn(reason)
+    })
+
+    const p1 = new Promise_((resolve, reject) => {
+        setTimeout(() => {
+            resolve('CC')
+        }, 500)
+    })
+
+    const p2 = new Promise_((resolve, reject) => {
+        setTimeout(() => {
+            resolve('DDD')
+        }, 1500)
+    })
+
+    Promise_.all({ length: 2 }).then(res => {
+        console.log('all -> res: ', res)
+    }, reason => {
+        console.error(reason)
+    })
+
+
+    console.log('--------------------------------------原生Promise--------------------------------')
+    // Promise.all({ length: 1 }).then(v => {
+    //     console.log(v)
+    // })
+    // const op = new Promise(executor)
+    //
+    //
+    // const opt = op.then(
+    //     value => {
+    //         console.log('原生 -> value: ', value, op)
+    //         return opt // Promise.resolve('原生then => value【' + value + '】')
+    //     },
+    //     reason => {
+    //         console.log('原生 -> reason: ', reason, op)
+    //         return '原生then => reason【' + reason + '】'
+    //     }
+    // )
+    //
+    // opt.then(
+    //     value => {
+    //         console.log('origin -> ', value, value === op)
+    //     },
+    //     reason => {
+    //         console.log('origin ->', reason)
+    //     }
+    // )
+
+</script>
+</body>
+</html>
