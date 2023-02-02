@@ -2,7 +2,7 @@ const PENDING = '[[pending]]'
 const FULFILLED = '[[fulfilled]]'
 const REJECTED = '[[rejected]]'
 
-export default class MyPromise {
+class MyPromise {
     _status = PENDING // 状态
 
     _result = '' // 解决的值，拒绝的原因
@@ -96,12 +96,15 @@ export default class MyPromise {
         return this.then(
             value => {
                 const result = callback()
-                if ()
-                return value
+                if (result instanceof MyPromise) {
+                    return result.then(() => value)
+                } else return value
             },
             reason => {
-                callback()
-                throw reason
+                const result = callback()
+                if (result instanceof MyPromise) {
+                    return result.then(() => { throw reason })
+                } else throw reason
             }
         )
     }
@@ -140,6 +143,28 @@ export default class MyPromise {
         })
     }
 
+    static race(iterable) {
+        return new MyPromise((resolve, reject) => {
+            if (typeof iterable !== 'object' || iterable === null) {
+                iterable = Array(iterable)
+            } else if (typeof iterable[Symbol.iterator] !== 'function') {
+                return reject(new TypeError('object is not iterable'))
+            }
+            let hasFinish = false
+            for(let i = 0; i < iterable.length; i++) {
+                if(hasFinish) return
+                const item = iterable[i]
+                if(item instanceof MyPromise) {
+                    item.then(resolve, reject).finally(() => { hasFinish = true })
+                } else {
+                    resolve(item)
+                    return
+                }
+            }
+        })
+    }
+
+
     _handleResolvePromise(p, res, resolve, reject) {
         if (p === res) { // 如果then()返回的promise对象，和 resolveCallback/rejectCallback返回的promise对象相等时就会发生错误，
             return reject(new TypeError('Chaining cycle detected for promise #<Promise>'))
@@ -151,3 +176,5 @@ export default class MyPromise {
         }
     }
 }
+
+export default MyPromise
