@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FileReader</title>
+</head>
+<body>
+<script>
+/**
+ * FileReader 对象允许 Web 应用程序异步读取存储在用户计算机上的文件（或原始数据缓冲区）的内容，
+ * 使用 File 或 Blob 对象指定要读取的文件或数据。
+ *
+ * 构造函数FileReader()，无参数
+ *
+ * FileReader 继承自 EventTarget
+ *
+ * @property 三个只读属性
+ *
+ * error 读取文件发生的错误
+ * readyState
+ * result 结果数据
+ *
+ * FileReader采用 **事件通知方式**，异步读取数据。
+ * 我们执行相应的readAs方法，再监听相应的事件来获取不同时间的结果
+ *
+ * 一个reader只能使用一次下述方法，其状态改变后不能再用了
+ *
+ * @method reader.readAsArrayBuffer(Blob)
+ * @method reader.readAsBinaryString(Blob)
+ * @method reader.readAsDataURL(Blob)
+ * @method reader.readAsText(Blob, encoding)
+ * */
+
+    const b = new Blob([JSON.stringify('<h2>我是h2标题</h2>')], { type: 'text/html' })
+
+    const reader = new FileReader()
+
+    reader.addEventListener('loadend', e => {
+        console.log('loadend: => ', reader.result)
+    })
+
+    // for (let i = 0; i < 10000; i++) {
+    //     reader.readAsText(b, 'utf8')
+    // }
+
+</script>
+</body>
+</html>

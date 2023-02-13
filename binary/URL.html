@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL</title>
+</head>
+<body>
+<script>
+    /**
+     * URL 接口用于解析，构造，规范化和编码 URL。它通过提供允许您轻松阅读和修改 URL 组件的属性来工作。
+     * 通常，通过在调用 URL 的构造函数时将 URL 指定为字符串或提供相对 URL 和基本 URL 来创建新的 URL 对象。
+     * 然后，您可以轻松读取 URL 的已解析组成部分或对 URL 进行更改。
+     *
+     * @property 它将整个url划分为很多个组件
+     *
+     *
+     * @method toString()
+     * @methods toJSON() 都是返回urlObj.href
+     *
+     * @Static_method objURL = URL.createObjectURL(obj) 静态方法会创建一个 DOMString，
+     * 其中包含一个表示参数中给出的对象的 URL。这个 URL 的生命周期和创建它的窗口中的 document 绑定。
+     * 这个新的 URL 对象表示指定的 File 对象或 Blob 对象。
+     *
+     * obj 表示 File、Blob、MediaSource对象
+     *
+     *
+     * 在每次调用 createObjectURL() 方法时，都会创建一个新的 URL 对象，即使你已经用相同的对象作为参数创建过。
+     * !!! 当不再需要这些 URL 对象时，每个对象必须通过调用 URL.revokeObjectURL() 方法来释放。!!!
+     * 浏览器在 document 卸载的时候，会自动释放它们，但是为了获得最佳性能和内存使用状况，你应该在安全的时机主动释放掉它们。
+     *
+     * @static_method URL.revokeObjectURL(objURL) 销毁 URL.createObjectURL()创建的URL对象
+     * */
+
+    const urlObj = new window.URL('https://root:qwer@www.baidu.com/index.html#PPP?a=1&b=2')
+
+
+    console.log('urlObj', urlObj)
+
+    console.log('urlObj.toString()', urlObj.toString())
+    console.log('urlObj.toString()', urlObj.toJSON())
+
+    const b = new Blob([`<h2>我是h2标题</h2>`], { type : 'image/png' })
+
+    const sstr = URL.createObjectURL(b)
+
+    console.log('sstr', sstr)
+
+    createImage(sstr)
+
+    function createImage(url) {
+        const imageElem = document.createElement('img')
+        imageElem.src = url
+        document.body.appendChild(imageElem)
+    }
+
+    // setTimeout(() => {
+    //     URL.revokeObjectURL(sstr)
+    // }, 1000)
+</script>
+</body>
+</html>

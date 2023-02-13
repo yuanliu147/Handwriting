@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blob</title>
+</head>
+<body>
+    <script>
+
+        /**
+         * Blob 对象表示一个不可变、原始数据的类文件对象。
+         * 它的数据可以按文本或二进制的格式进行读取，也可以转换成 ReadableStream 来用于数据操作。
+         *
+         * new Blob(Array, option)
+         * array 是一个由ArrayBuffer, ArrayBufferView, Blob, DOMString 等对象构成的 Array ，
+         * 或者其他类似对象的混合体，它将会被放进 Blob。DOMStrings 会被编码为 UTF-8。
+         *
+         * File接口 继承自 Blob接口，拥有Blob的所有属性、方法。
+         *
+         * @property size
+         * @property type
+         *
+         * @method arrayBuffer => Promise<ArrayBuffer>
+         * @method slice => Blob
+         * @method text => Promise<String>
+         *@method stream => ReadableStream
+         *
+         * 借助URL => 将Blob转换为url
+         *
+         *
+         * 读取Blob数据：
+         * 1. FileReader
+         * 2. Response
+         * 3. await blob.text()
+         * */
+
+        const jb = new Blob([JSON.stringify({ name: 'Tom' })], { type: 'application/json' })
+
+        console.log('jb：', jb)
+
+        !(async function() {
+            const jbAB = await jb.arrayBuffer()
+            console.log('jbAB：', jbAB)
+        })()
+
+        const subJB = jb.slice(10)
+
+        console.log('subJB：', subJB)
+
+        !(async function() {
+            const jbText = await jb.text()
+            console.log('jbText：', jbText)
+
+            const subJbText = await subJB.text()
+
+            console.log('subJbText：', subJbText)
+        })()
+
+    </script>
+</body>
+</html>

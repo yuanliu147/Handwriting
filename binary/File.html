@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File</title>
+</head>
+<body>
+<script>
+    /**
+     * File 对象是特殊类型的 Blob，且可以用在任意的 Blob 类型的 context 中。 => 适用于Blob的也适用于File
+     *
+     * File extends Blob
+     *
+     * @property name
+     * */
+
+    const testFile = new File([JSON.stringify({ name: 'Tom' })], 'test.txt', { type: 'Application/json' })
+
+    !(async function() {
+        console.log('testFile：', await testFile.text())
+    })()
+</script>
+</body>
+</html>
